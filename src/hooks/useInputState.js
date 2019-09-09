@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import useLocalStorageState from './useLocalStorageState';
 
-export default (inputVal = '') => {
-	const [inputValue, setInputValue] = useState(inputVal);
+export default (inputVal = '', key) => {
+	const [inputValue, setInputValue] = useLocalStorageState(inputVal, key);
 
 	const handleInputChange = e => {
 		setInputValue(e.target.value);
 	};
-	const reset = (e) => {
-        e.preventDefault();
+	const reset = e => {
+		e.preventDefault();
 		setInputValue('');
 	};
 	return [inputValue, handleInputChange, reset];

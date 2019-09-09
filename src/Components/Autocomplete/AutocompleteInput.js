@@ -2,12 +2,13 @@ import React from 'react';
 import useInputState from '../../hooks/useInputState';
 
 export default function AutocompleteInput() {
-	const [AutocompleteInpuValue, updateAutocompleteInputValue, resetAutocompleteInputValue] = useInputState('');
+	const [InputValue, updateInputValue, resetInputValue] = useInputState('', "inputValCity");
+
 	return (
 		<div className="Autocomplete">
-			<form onSubmit={resetAutocompleteInputValue}>
-				<input type="text" value={AutocompleteInpuValue} onChange={updateAutocompleteInputValue} />
-				<button sype="submit">search</button>
+			<form>
+				<input type="text" value={InputValue} onChange={updateInputValue} />
+				<button type="submit">search</button>
 			</form>
 		</div>
 	);
