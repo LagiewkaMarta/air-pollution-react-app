@@ -1,9 +1,8 @@
 import React from 'react';
 import useInputState from '../../hooks/useInputState';
 
-export default function AutocompleteInput() {
+export default function AutocompleteInput(props) {
 	const [InputValue, updateInputValue, resetInputValue] = useInputState('', "inputValCity");
-
 	return (
 		<div className="Autocomplete">
 			<form>
