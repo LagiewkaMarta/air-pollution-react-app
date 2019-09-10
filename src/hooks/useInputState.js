@@ -10,5 +10,5 @@ export default (inputVal = '', key) => {
 		e.preventDefault();
 		setInputValue('');
 	};
-	return [inputValue, handleInputChange, reset];
+	return [inputValue, setInputValue, handleInputChange, reset];
 };
