@@ -1,0 +1,1 @@
+export const availableCountries = ["Poland", "Germany", "Spain", "France"];
