@@ -1,5 +1,6 @@
 import React from 'react';
 import AutocompleteInput from './Components/Autocomplete/AutocompleteInput';
+import City from "./Components/City/City";
 import { useState } from 'react';
 import { availableCountries } from './availableCountries';
 
@@ -30,7 +31,7 @@ function App() {
 		<div className="App">
 			<AutocompleteInput availableCountries={availableCountries} fetchPollutionData={fetchPollutionData}/>
 			{isFetching && <p>i'm fetching</p>}
-			{!isFetching && data && data.map((el, i) => <p key={i}>{el.city}</p>)}
+			{!isFetching && data && data.map((city, i) => <City key={i} city={city}></City>)}
             {error && <p>error</p>}
             {!isFetching && data && data.length === 0 && <p>no data available</p>}
 			        

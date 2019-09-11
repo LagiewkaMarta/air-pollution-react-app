@@ -16,6 +16,7 @@ export default function AutocompleteInput({ availableCountries, fetchPollutionDa
         setInputValue(suggestion.country);
 		setSuggestions([]);
 		setIsShowingSuggestions(false);
+		setInputValue("");
 	};
 
 	const convertCountryToCode = InputValue => {
@@ -61,11 +62,12 @@ export default function AutocompleteInput({ availableCountries, fetchPollutionDa
 					setIsShowingSuggestions(false);
 				}}
 			>
-				<li
+				<input
 					type="text"
 					onChange={updateInputValue}
 					onFocus={() => setIsShowingSuggestions(true)}
 					placeholder="Enter country name"
+					value={InputValue}
 				/>
 				<button type="submit">search</button>
 				{renderSuggestions()}
