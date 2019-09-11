@@ -61,9 +61,8 @@ export default function AutocompleteInput({ availableCountries, fetchPollutionDa
 					setIsShowingSuggestions(false);
 				}}
 			>
-				<input
+				<li
 					type="text"
-					value={InputValue}
 					onChange={updateInputValue}
 					onFocus={() => setIsShowingSuggestions(true)}
 					placeholder="Enter country name"
