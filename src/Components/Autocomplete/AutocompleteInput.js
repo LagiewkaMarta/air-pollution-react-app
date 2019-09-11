@@ -3,7 +3,7 @@ import useInputState from '../../hooks/useInputState';
 import useSuggestions from '../../hooks/useSuggestions';
 import { useEffect, useState } from 'react';
 
-export default function AutocompleteInput({ availableCountries }) {
+export default function AutocompleteInput({ availableCountries, fetchPollutionData }) {
 	const [InputValue, setInputValue, updateInputValue] = useInputState('', 'inputValCity');
 	const [suggestions, setSuggestions, updateSuggestions] = useSuggestions([], InputValue, availableCountries);
 	const [isShowingSuggestions, setIsShowingSuggestions] = useState(false);
@@ -13,19 +13,38 @@ export default function AutocompleteInput({ availableCountries }) {
 	}, [InputValue]);
 
 	const selectSuggestion = suggestion => {
-		setInputValue(suggestion);
+        setInputValue(suggestion.country);
 		setSuggestions([]);
 		setIsShowingSuggestions(false);
 	};
 
+	const convertCountryToCode = InputValue => {
+		const country = availableCountries.find(el => el.country.toLowerCase() === InputValue.toLowerCase());
+		if (country) return country.code;
+		return null;
+	};
+
+	const handleFetch = (e = null, el) => {
+		if (e) {
+			e.preventDefault();
+			fetchPollutionData(convertCountryToCode(InputValue));
+		} else {
+			fetchPollutionData(el.code);
+		}
+	};
 	const renderSuggestions = () => {
 		if (suggestions.length !== 0 && isShowingSuggestions) {
 			return (
 				<ul>
 					{suggestions.map((el, idx) => (
-						<li onClick={() => selectSuggestion(el)} key={idx}>
-							{' '}
-							{el}
+						<li
+							onClick={() => {
+								selectSuggestion(el);
+								handleFetch(null, el);
+							}}
+							key={idx}
+						>
+							{el.country}
 						</li>
 					))}
 				</ul>
@@ -36,7 +55,12 @@ export default function AutocompleteInput({ availableCountries }) {
 
 	return (
 		<div className="Autocomplete">
-			<form>
+			<form
+				onSubmit={e => {
+					handleFetch(e);
+					setIsShowingSuggestions(false);
+				}}
+			>
 				<input
 					type="text"
 					value={InputValue}
