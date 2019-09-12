@@ -1,6 +1,7 @@
 import React from 'react';
 import AutocompleteInput from './Components/Autocomplete/AutocompleteInput';
 import City from "./Components/City/City";
+import GlobalStyles from "./styledComponents/GlobalStyles";
 import { useState } from 'react';
 import { availableCountries } from './availableCountries';
 
@@ -28,6 +29,8 @@ function App() {
 		foo();
 	};
 	return (
+		<>
+		<GlobalStyles/>
 		<div className="App">
 			<AutocompleteInput availableCountries={availableCountries} fetchPollutionData={fetchPollutionData}/>
 			{isFetching && <p>i'm fetching</p>}
@@ -35,7 +38,8 @@ function App() {
             {error && <p>error</p>}
             {!isFetching && data && data.length === 0 && <p>no data available</p>}
 			        
-		</div>
+		</div> </>
+		
 	);
 }
 
