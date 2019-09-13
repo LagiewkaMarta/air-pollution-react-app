@@ -3,7 +3,7 @@ import useInputState from '../../hooks/useInputState';
 import useSuggestions from '../../hooks/useSuggestions';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { setFlex } from '../../styledComponents/styles.helpers';
+import { setFlex } from '../../GlobalStyles/styles.helpers';
 
 export default function AutocompleteInput({ availableCountries, fetchPollutionData }) {
 	const [InputValue, setInputValue, updateInputValue] = useInputState('', 'inputValCity');
