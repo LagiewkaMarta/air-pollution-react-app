@@ -3,7 +3,7 @@ import useInputState from '../../hooks/useInputState';
 import useSuggestions from '../../hooks/useSuggestions';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { colors, setFlex } from '../../styledComponents/styles.helpers';
+import { setFlex } from '../../styledComponents/styles.helpers';
 
 export default function AutocompleteInput({ availableCountries, fetchPollutionData }) {
 	const [InputValue, setInputValue, updateInputValue] = useInputState('', 'inputValCity');
@@ -38,7 +38,7 @@ export default function AutocompleteInput({ availableCountries, fetchPollutionDa
 	const renderSuggestions = () => {
 		if (suggestions.length !== 0 && isShowingSuggestions) {
 			return (
-				<ul className="killme">
+				<ul className="CityUl">
 					{suggestions.map((el, idx) => (
 						<li
 							onClick={() => {
@@ -85,10 +85,11 @@ export default function AutocompleteInput({ availableCountries, fetchPollutionDa
 }
 
 const Autocomplete = styled.div`
-	background-color: red;
-	margin-top: 20vh;
+	width: 60%;
+	margin: 10vh auto;
 	${setFlex()};
-	height: 200px;
+	height: 300px;
+	background-color: rgba(244, 0, 0, 0.57);
 	position: relative;
 	.Autocomplete-form {
 		position: absolute;
@@ -97,12 +98,12 @@ const Autocomplete = styled.div`
 		transform: translate(-50%, -50%);
 		font-size: 14px;
 		height: 100px;
+		width: 90%;
 		.Autocomplete-search-container {
 			height: 50%;
 			.Autocomplete-input {
 				margin-right: 20px;
 				height: 4vh;
-
 				width: 25vw;
 				min-width: 140px;
 			}
@@ -111,11 +112,18 @@ const Autocomplete = styled.div`
 				border-radius: 5px;
 				text-transform: uppercase;
 				font-weight: bold;
+				background-color: #030033;
+				color: white;
 				font-family: 'Helvetica', 'Arial', sans-serif;
+				transition: all 0.6s;
+				&:hover {
+					background-color: white;
+					color: #030033;
+				}
 			}
 		}
 
-		.killme {
+		.CityUl {
 			list-style: none;
 			background-color: white;
 			width: 25vw;
@@ -123,9 +131,11 @@ const Autocomplete = styled.div`
 			li {
 				height: 3vh;
 				line-height: 3vh;
+				color: rgb(150, 150, 150);
+				text-transform: uppercase;
 				cursor: pointer;
 				&:hover {
-					color: red;
+					color: rgb(0, 0, 0);
 				}
 			}
 		}
