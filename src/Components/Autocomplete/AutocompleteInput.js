@@ -114,7 +114,6 @@ const Autocomplete = styled.div`
 				font-weight: bold;
 				background-color: #030033;
 				color: white;
-				font-family: 'Helvetica', 'Arial', sans-serif;
 				transition: all 0.6s;
 				&:hover {
 					background-color: white;

@@ -8,8 +8,7 @@ const GlobalStyle = createGlobalStyle`
 }
 body {
     min-height: 100vh;
-    background: #43C6AC;
-    background: linear-gradient(to right, #191654, #43C6AC);
+    font-family: Arial, Helvetica, sans-serif;
 }
 `;
 
