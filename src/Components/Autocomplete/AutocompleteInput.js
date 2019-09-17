@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from "styled-components";
 import useSuggestions from '../../hooks/useSuggestions';
+import {availableCountries} from "../../availableCountries";
 
-const countriesList = ['Poland', 'Spain', 'Germany', 'France'];
-// const extractCountries = availableCountries.map(country => country.country);
+const countriesList = availableCountries.map(country => country.country);
 
 export default function AutocompleteInput({ inputValue, handleInputChange, triggerSearch, setSearch, setInputValue }) {
-	const [suggestions, setSuggestions, updateSuggestions] = useSuggestions([], inputValue, countriesList);
+	const [suggestions, setSuggestions, updateSuggestions] = useSuggestions([], countriesList);
 
 	const onKeyDown = (evt) => {
-		if(evt.key === "Enter"){
+		if(evt.key === "Enter" && suggestions.length !== 0){
 			setInputValue(suggestions[0]);
 			setSearch(suggestions[0]);
 			setSuggestions([]);

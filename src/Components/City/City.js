@@ -41,7 +41,7 @@ export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, i
 			>
 				<span className="CityName">{city.city}</span>{' '}
 				<span className="CityMesurements">
-					{city.measurements[0].value} {city.measurements[0].parameter}
+					{city.value} {city.parameter}
 				</span>{' '}
 				<span className="show">{isCityOpen ? 'show less' : 'show more'}</span>
 			</p>

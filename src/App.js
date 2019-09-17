@@ -3,14 +3,14 @@ import AutocompleteInput from './Components/Autocomplete/AutocompleteInput';
 import City from './Components/City/City';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
 import { HeadingPrimary, HeadingSecondary } from './Components/Headings/Headings';
-import { useState, useEffect } from 'react';
 import { availableCountries } from './availableCountries';
 import styled from 'styled-components';
 import bg from './bg.svg';
 //hooks
+import { useState, useEffect } from 'react';
 import useInputState from './hooks/useInputState';
 import useIsOpen from './hooks/useIsOpen';
-// const countriesList = ['Poland', 'Spain', 'Germany', 'France'];
+
 
 function App() {
 	const [data, setData] = useState(null);
@@ -25,6 +25,14 @@ function App() {
 		if (country) return country.code;
 		return null;
 	};
+	const removeDuplicates = data => {
+		let newData = [...(new Set(data.map(el => el.city)))]
+		.map(cityName => {
+		  return data.find(el => el.city === cityName)
+		});
+		newData = newData.slice(0,10)
+		return newData
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -32,11 +40,11 @@ function App() {
 				setIsLoading(true);
 				try {
 					const countryCode = convertCountryToCode(search);
-					const url = `https://api.openaq.org/v1/latest?country=${countryCode}&parameter=no2&limit=10&has_geo=true`;
+					const url = `https://api.openaq.org/v1/measurements?country=${countryCode}&parameter=pm25&order_by=value&sort=desc&limit=200`;
 					let result = await fetch(url);
 					result = await result.json();
-					console.log(result.results);
-					setData(result.results);
+					let cities = removeDuplicates(result.results);
+					setData(cities);
 					setIsLoading(false);
 				} catch (e) {
 					setIsError(true);

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import {availableCountries} from "../availableCountries";
-;
 
 const extractCountries = availableCountries.map(country => country.country);
 
-export default (defaultSuggestions = [], inputVal = '', countries = extractCountries()) => {
+export default (defaultSuggestions = [], countries = extractCountries()) => {
 	const [suggestions, setSuggestions] = useState(defaultSuggestions);
 	const updateSuggestions = (evt) => {
 		let suggestions = [];

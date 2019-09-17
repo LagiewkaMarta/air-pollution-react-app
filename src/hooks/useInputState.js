@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import useLocalStorage from "./useLocalStorageState";
 
 const useInputState = (defaultValue = "" , key) => {
