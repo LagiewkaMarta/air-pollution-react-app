@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { colors } from "../../GlobalStyles/styles.helpers";
+
 
 export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, id }) {
 	const [info, setInfo] = useState(null);
@@ -66,18 +68,16 @@ const CityWrapper = styled.div`
 		background-color: #030033;
 		min-height: 5vh;
 	}
-	.City-info {
-	}
 	.show {
 		background-color: #eee;
 		margin-left: auto;
 		padding: 5px;
-		color: black;
+		color:${ ({isCityOpen}) =>  isCityOpen ? 'white' : 'black'};
 		transition: all 0.6s;
 		border-radius: 5px;
-		/* background-color: ${ ({isCityOpen}) =>  isCityOpen ? "green" :"red"}; */
+		background-color: ${ ({isCityOpen}) =>  isCityOpen ? colors.cityWrapperColorLight : colors.autocompleteBgColor};
 		&:hover {
-			background-color: #8c0321;
+			background-color: ${ ({isCityOpen}) =>  isCityOpen ? colors.cityWrapperColorDark : colors.autocompleteBgColorLight};
 		}
 	}
 	.CityName {
