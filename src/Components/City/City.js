@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { colors } from "../../GlobalStyles/styles.helpers";
-
+import { setFlex, colors } from '../../GlobalStyles/styles.helpers';
 
 export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, id }) {
 	const [info, setInfo] = useState(null);
@@ -47,7 +46,7 @@ export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, i
 				</span>{' '}
 				<span className="show">{isCityOpen ? 'show less' : 'show more'}</span>
 			</p>
-			<div className="City-info" style={{ margin: '30px', display: `${cityDisplay}`}}>
+			<div className="City-info" style={{ margin: '30px', display: `${cityDisplay}` }}>
 				{info}
 			</div>
 		</CityWrapper>
@@ -55,7 +54,7 @@ export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, i
 }
 
 const CityWrapper = styled.div`
-	background-color: #030033;
+	background-color: ${colors.cityWrapperColor};
 	color: white;
 	width: 80%;
 	margin: 0 auto;
@@ -63,21 +62,20 @@ const CityWrapper = styled.div`
 	padding: 5px 15px;
 	text-transform: uppercase;
 	.City-title {
-		display: flex;
-		align-items: center;
-		background-color: #030033;
+		${setFlex()}
+		background-color: ${colors.cityWrapperColor};
 		min-height: 5vh;
 	}
 	.show {
 		background-color: #eee;
 		margin-left: auto;
 		padding: 5px;
-		color:${ ({isCityOpen}) =>  isCityOpen ? 'white' : 'black'};
+		color:${({ isCityOpen }) => (isCityOpen ? 'white' : 'black')};
 		transition: all 0.6s;
 		border-radius: 5px;
-		background-color: ${ ({isCityOpen}) =>  isCityOpen ? colors.cityWrapperColorLight : colors.autocompleteBgColor};
+		background-color: ${({ isCityOpen }) => (isCityOpen ? colors.cityWrapperColorLight : colors.autocompleteBgColor)};
 		&:hover {
-			background-color: ${ ({isCityOpen}) =>  isCityOpen ? colors.cityWrapperColorDark : colors.autocompleteBgColorLight};
+			background-color: ${({ isCityOpen }) => (isCityOpen ? colors.cityWrapperColorDark : colors.autocompleteBgColorLight)};
 		}
 	}
 	.CityName {
