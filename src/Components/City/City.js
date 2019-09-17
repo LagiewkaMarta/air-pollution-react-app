@@ -30,7 +30,6 @@ export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, i
 
 	const isCityOpen = handleCheckIsOpen();
 	const cityDisplay = isCityOpen ? 'block' : 'none';
-
 	return (
 		<CityWrapper isCityOpen={isCityOpen}>
 			<p

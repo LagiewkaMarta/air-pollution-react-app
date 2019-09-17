@@ -38,6 +38,7 @@ function App() {
 		const fetchData = async () => {
 			if (search !== '') {
 				setIsLoading(true);
+				setCurrentOpen(null);
 				try {
 					const countryCode = convertCountryToCode(search);
 					const url = `https://api.openaq.org/v1/measurements?country=${countryCode}&parameter=pm25&order_by=value&sort=desc&limit=200`;
