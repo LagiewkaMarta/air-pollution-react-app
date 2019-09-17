@@ -1,9 +1,16 @@
 import { useState } from "react";
 
-export default (open = false) => {
-    const [isOpen, setIsOpen] = useState(open);
-    const toggle = () => {
-        setIsOpen(!isOpen);
+export default (defaultOpenCity = null) => {
+    const [currentOpen, setCurrentOpen] = useState(defaultOpenCity);
+
+    const checkIsOpen = (id) => {
+        return currentOpen === id;
     }
-    return [isOpen, toggle];
+    const closeIsOpen = (id) => {
+        if(currentOpen === id) {
+            setCurrentOpen(null);
+        }
+    }
+    return [setCurrentOpen, checkIsOpen, closeIsOpen];
 }
+

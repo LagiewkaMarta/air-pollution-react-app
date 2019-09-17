@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import {availableCountries} from "../availableCountries";
+;
 
-export default (defaultSuggestions = [], inputVal = '', countries) => {
+const extractCountries = availableCountries.map(country => country.country);
+
+export default (defaultSuggestions = [], inputVal = '', countries = extractCountries()) => {
 	const [suggestions, setSuggestions] = useState(defaultSuggestions);
-	const updateSuggestions = () => {
+	const updateSuggestions = (evt) => {
 		let suggestions = [];
-		if (inputVal.length > 0) {
-			suggestions = countries.filter(country => country.country.toLowerCase().includes(inputVal.toLowerCase()));
+		if (evt.target.value.length > 0) {
+			suggestions = countries.filter(country => country.toLowerCase().includes(evt.target.value.toLowerCase()));
 		}
 		setSuggestions(suggestions);
 	};

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import useIsOpen from '../../hooks/useIsOpen';
 import styled from 'styled-components';
 
-export default function City({ city }) {
-	let [info, setInfo] = useState(null);
-	let [isOpen, toggleIsOpen] = useIsOpen(false);
+export default function City({ city, setCurrentOpen, checkIsOpen, closeIsOpen, id }) {
+	const [info, setInfo] = useState(null);
 
 	useEffect(() => {
 		async function foo() {
@@ -22,18 +20,34 @@ export default function City({ city }) {
 		foo();
 	}, [city.city]);
 
-	const show = isOpen ? 'block' : 'none';
+	const handleCheckIsOpen = () => {
+		return checkIsOpen(id);
+	};
+	const handleCloseIsOpen = () => {
+		closeIsOpen(id);
+	};
+
+	const isCityOpen = handleCheckIsOpen();
+	const cityDisplay = isCityOpen ? 'block' : 'none';
 
 	return (
-		<CityWrapper>
-			<p onClick={toggleIsOpen} className="City-title">
+		<CityWrapper isCityOpen={isCityOpen}>
+			<p
+				onClick={() => {
+					setCurrentOpen(id);
+					handleCloseIsOpen();
+				}}
+				className="City-title"
+			>
 				<span className="CityName">{city.city}</span>{' '}
 				<span className="CityMesurements">
 					{city.measurements[0].value} {city.measurements[0].parameter}
 				</span>{' '}
-				<span className="show">{isOpen ? 'show less' : 'show more'}</span>
+				<span className="show">{isCityOpen ? 'show less' : 'show more'}</span>
 			</p>
-			<div className="City-info" style={{ margin: '30px', display: `${show}` }}>{info}</div>
+			<div className="City-info" style={{ margin: '30px', display: `${cityDisplay}`}}>
+				{info}
+			</div>
 		</CityWrapper>
 	);
 }
@@ -54,20 +68,20 @@ const CityWrapper = styled.div`
 	}
 	.City-info {
 	}
-	.show{
+	.show {
 		background-color: #eee;
 		margin-left: auto;
 		padding: 5px;
 		color: black;
-		transition: all .6s;
+		transition: all 0.6s;
 		border-radius: 5px;
+		/* background-color: ${ ({isCityOpen}) =>  isCityOpen ? "green" :"red"}; */
 		&:hover {
-			background-color: #8C0321;
+			background-color: #8c0321;
 		}
 	}
 	.CityName {
 		margin-right: 10px;
-
 	}
 	.CityMesurements {
 		margin-right: 50px;

@@ -3,46 +3,101 @@ import AutocompleteInput from './Components/Autocomplete/AutocompleteInput';
 import City from './Components/City/City';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
 import { HeadingPrimary, HeadingSecondary } from './Components/Headings/Headings';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { availableCountries } from './availableCountries';
 import styled from 'styled-components';
 import bg from './bg.svg';
+//hooks
+import useInputState from './hooks/useInputState';
+import useIsOpen from './hooks/useIsOpen';
+// const countriesList = ['Poland', 'Spain', 'Germany', 'France'];
 
 function App() {
-	const [isFetching, setIsFetching] = useState(false);
 	const [data, setData] = useState(null);
-	const [error, setError] = useState(false);
+	const [search, setSearch] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [isError, setIsError] = useState(false);
+	const [inputValue, setInputValue, handleInputChange] = useInputState('', 'inputVal');
+	const [setCurrentOpen, checkIsOpen, closeIsOpen] = useIsOpen(null);
 
-	const fetchPollutionData = Countrycode => {
-		setIsFetching(true);
-		async function foo() {
-			const url = `https://api.openaq.org/v1/latest?country=${Countrycode}&parameter=pm25&order_by=measurements[0].value&limit=10&sort=desc`;
-			try {
-				let res = await fetch(url);
-				res = await res.json();
-				res = res.results;
-				setData(res);
-				setIsFetching(false);
-			} catch (error) {
-				setIsFetching(false);
-				setError(true);
-			}
-		}
-		foo();
+	const convertCountryToCode = val => {
+		const country = availableCountries.find(el => el.country.toLowerCase() === val.toLowerCase());
+		if (country) return country.code;
+		return null;
 	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (search !== '') {
+				setIsLoading(true);
+				try {
+					const countryCode = convertCountryToCode(search);
+					const url = `https://api.openaq.org/v1/latest?country=${countryCode}&parameter=no2&limit=10&has_geo=true`;
+					let result = await fetch(url);
+					result = await result.json();
+					console.log(result.results);
+					setData(result.results);
+					setIsLoading(false);
+				} catch (e) {
+					setIsError(true);
+					setIsLoading(false);
+					throw new Error(e);
+				}
+			}
+		};
+		fetchData();
+	}, [search]);
+
+	const triggerSearch = () => {
+		setSearch(inputValue);
+	};
+
 	return (
 		<>
 			<GlobalStyles />
 			<AppWrapper>
 				<HeadingPrimary>air pollution app</HeadingPrimary>
 				<HeadingSecondary>
-					Poland <span role="img" aria-label="Polish flag">🇵🇱</span> Spain <span aria-label="Spanish flag" role="img">🇪🇸</span> France <span aria-label="French flag" role="img">🇫🇷</span>Germany <span role="img" aria-label="German flag">🇩🇪</span>{' '}
+					Poland{' '}
+					<span role="img" aria-label="Polish flag">
+						🇵🇱
+					</span>{' '}
+					Spain{' '}
+					<span aria-label="Spanish flag" role="img">
+						🇪🇸
+					</span>{' '}
+					France{' '}
+					<span aria-label="French flag" role="img">
+						🇫🇷
+					</span>
+					Germany{' '}
+					<span role="img" aria-label="German flag">
+						🇩🇪
+					</span>{' '}
 				</HeadingSecondary>
-				<AutocompleteInput availableCountries={availableCountries} fetchPollutionData={fetchPollutionData} />
-				{isFetching && <Info>Fetching data...</Info>}
-				{!isFetching && data && data.map((city, i) => <City key={i} city={city}></City>)}
-				{error && <Info>error</Info>}
-				{!isFetching && data && data.length === 0 && <Info>no data available</Info>}
+				<AutocompleteInput
+					availableCountries={availableCountries}
+					triggerSearch={triggerSearch}
+					inputValue={inputValue}
+					handleInputChange={handleInputChange}
+					setSearch={setSearch}
+					setInputValue={setInputValue}
+				/>
+				{isLoading && <Info>Fetching data...</Info>}
+				{!isLoading &&
+					data &&
+					data.map((city, i) => (
+						<City
+							key={i}
+							city={city}
+							id={i}
+							setCurrentOpen={setCurrentOpen}
+							checkIsOpen={checkIsOpen}
+							closeIsOpen={closeIsOpen}
+						></City>
+					))}
+				{isError && <Info>error</Info>}
+				{!isLoading && data && data.length === 0 && <Info>no data available</Info>}
 				        
 			</AppWrapper>{' '}
 		</>
